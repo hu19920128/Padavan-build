@@ -1,62 +1,62 @@
-#修改TNAME: K2P 中的K2P为你需要编译的型号，注意名称要与configs/templates/目录下的名字相同
-name: Build Padavan
+#修改TNAME: K2P中的K2P为你需要编译的型号，注意名称要与configs/templates/目录下的名称相同
+姓名：Build Padavan
 
-on: 
-  release:
-    types: [published]
-  push:
-    tags:
+在：
+  发布：
+[已发表]
+  推：
+    标签：
     - 'v*'
-  #  branches: 
-  #    - master
-#  schedule:
-#    - cron: 0 8 * * 5
-  watch:
-    types: [started]
+  # 枢纽：
+  ＃-掌握
+＃ 浙江：
+# - 计划任务：0 8 * * 5
+  手表：
+    类型：[开始]
 
-jobs:
-  build:
-    runs-on: ubuntu-18.04
-    if: github.event.repository.owner.id == github.event.sender.id
+职位：
+  建造者：
+    运行：ubuntu-18.04
+    如果：github.event.repository.owner.id == github.event.sender.id
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Initialization environment
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo apt-get update
-        sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot \
+    步骤：
+    -姓名：结账
+      用途：actions/checkout@master
+    -名称：初始化环境
+      环境：
+        DEBIAN_FRONTEND：非交互式
+      运行：|
+        sudo apt-get 更新
+        sudo apt-get -y install unzip libtool-bincurl cmake gperf gawk flex bison nano xxd fakeroot \
         cpio git python-docutils gettext automake autopoint texinfo build-essential help2man \
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
-    - name: Clone source code
-      env:
-        KERNEL: 3.4
-      run: |
-        if [ $KERNEL = "4.4" ] ; then
-        git clone --depth=1 https://github.com/MeIsReallyBa/padavan-4.4.git /opt/rt-n56u
-        else
-        git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
-        fi
+    -姓名：- 名称：克隆源代码
+      环境：
+        内核：3.4
+      运行：|
+        如果[ $KERNEL = "4.4"  ] ;然后
+        git克隆--深度= 1 https://github.com/MeIsReallyBa/padavan-4.4.git /opt/rt-n56u
+        别的
+        git克隆--深度= 1 https://github.com/hu19920128/rt-n56u.git /opt/rt-n56u
+        菲
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
-        mkdir -p /opt/images/
-    - name: Build Firmware
-      env:
-        TNAME: ZTE-E8820S
-        KERNEL: 3.4
-      run: |
+        mkdir -p /opt/图像/
+    -姓名：- 名称：构建支架
+      环境：
+        TNAME :         名称：ZTE-E8820S
+        内核：3.4
+      运行：|
         cd /opt/rt-n56u/trunk
-        if [ ! -f configs/templates/$TNAME.config ] ; then
-        echo "configs/templates/$TNAME.config not found "
-        exit 1
-        fi
+        如果[！ -f configs/templates/$TNAME.config ] ;​​然后
+        echo“未找到配置/模板/$TNAME.config”
+        1号出口
+        菲
         cp -f configs/templates/$TNAME.config .config
         sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' .config
-        ################################################################################################
+        #################################################### ################################################
         #因不同型号配置功能不一样，所以先把配置项删除，如果你自己要添加其他的，也要写上删除这一条，切记！！！
-        ################################################################################################
+        #################################################### ################################################
         sed -i '/CONFIG_FIRMWARE_INCLUDE_MENTOHUST/d' .config #删除配置项MENTOHUST
         sed -i '/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT/d' .config #删除配置项SCUTCLIENT
         sed -i '/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS/d' .config #删除配置项SS plus+
